@@ -1,11 +1,13 @@
 import express from "express";
+import cookieParser from "cookie-parser";
+import router from "./routes/auth.routes.js";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.json({ hello: "world" });
-});
+app.use(express.json());
 
-app.listen(3000, () => {
-  console.log("Server is live:http://localhost:3000/");
-});
+app.use(cookieParser());
+
+app.use("/", router);
+
+export default app;
