@@ -1,7 +1,8 @@
+import { env } from "../configs/env.js";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
-const protectedRoutes = async (req, res, next) => {
+export const protectedRoute = async (req, res, next) => {
   try {
     const token = req.cookies.token;
     if (!token) {
@@ -9,7 +10,7 @@ const protectedRoutes = async (req, res, next) => {
         .status(401)
         .json({ success: false, message: "Unauthorized! Access denied" });
     }
-    const { userId } = jwt.verify(token, process.env.JWT_SECRET);
+    const { userId } = jwt.verify(token, env.JWT_SECRET);
 
     const existingUser = await User.findById(userId).select("-password");
     if (!existingUser) {

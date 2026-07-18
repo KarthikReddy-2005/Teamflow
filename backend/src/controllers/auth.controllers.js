@@ -1,3 +1,4 @@
+import { env } from "../configs/env.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -24,7 +25,7 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: newUser._id }, env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -34,13 +35,13 @@ export const registerUser = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Signed in successfully",
       user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
+        id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
       },
     });
   } catch (error) {
@@ -68,7 +69,7 @@ export const loginUser = async (req, res) => {
         message: "Invalid email or password",
       });
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -87,6 +88,15 @@ export const loginUser = async (req, res) => {
         email: user.email,
       },
     });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Something went wrong " });
+  }
+};
+
+export const me = (req, res) => {
+  try {
+    res.json(req.user);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Something went wrong " });
