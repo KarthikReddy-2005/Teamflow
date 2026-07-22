@@ -4,13 +4,25 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import Teams from "../pages/Teams";
+import Tasks from "../pages/Tasks";
+import Profile from "../pages/Profile";
+import AppLayout from "../layouts/AppLayout";
+import ProtectedRoute from "./ProtectedRoute";
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+      </Route>
     </Routes>
   );
 };

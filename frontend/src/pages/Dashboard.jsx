@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { getUserName } from "../services/authService";
+import { useOutletContext } from "react-router-dom";
 
 const Dashboard = () => {
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    async function fetchUserName() {
-      try {
-        const result = await getUserName();
-        setName(result.username);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchUserName();
-  }, []);
-
-  return <h1>hello {name}</h1>;
+  const user = useOutletContext();
+  return (
+    <>
+      <h1>hello {user?.username}</h1>
+    </>
+  );
 };
 
 export default Dashboard;
