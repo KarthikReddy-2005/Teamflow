@@ -8,10 +8,6 @@ import errorMiddleware from "./middlewares/error.middleware.js";
 
 const app = express();
 
-app.use(express.json());
-
-app.use(cookieParser());
-
 app.use(
   cors({
     origin: env.FRONTEND_URL,
@@ -19,8 +15,16 @@ app.use(
   }),
 );
 
+app.use(express.json());
+
+app.use(cookieParser());
+
 app.use("/api/auth", authRouter);
 app.use("/api/teams", teamsRouter);
+
+app.use((req, res, next) => {
+  next(new ApiError(404, "Route not found"));
+});
 
 app.use(errorMiddleware);
 
