@@ -5,6 +5,7 @@ import authRouter from "./routes/auth.routes.js";
 import { env } from "./configs/env.js";
 import teamsRouter from "./routes/teams.routes.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
+import ApiError from "./utils/ApiError.js";
 
 const app = express();
 

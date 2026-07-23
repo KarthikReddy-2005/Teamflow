@@ -4,7 +4,7 @@ import { createTeam, getAllTeams } from "../controllers/teams.controllers.js";
 
 const teamsRouter = express.Router();
 
-teamsRouter.post("/teams", protectedRoute, createTeam);
-teamsRouter.get("/teams", protectedRoute, getAllTeams);
+teamsRouter.post("/", protectedRoute, createTeam);
+teamsRouter.get("/", protectedRoute, getAllTeams);
 
 export default teamsRouter;

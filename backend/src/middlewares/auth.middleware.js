@@ -9,8 +9,14 @@ export const protectedRoute = asyncHandler(async (req, res, next) => {
   if (!token) {
     throw new ApiError(401, "Unauthorized! Access denied");
   }
-  const { userId } = jwt.verify(token, env.JWT_SECRET);
-
+  let decoded;
+  try {
+    decoded = jwt.verify(token, env.JWT_SECRET);
+  } catch (error) {
+    throw new ApiError(401, "Unauthorized! Access denied");
+  }
+  const { userId } = decoded;
+  
   const existingUser = await User.findById(userId).select("-password");
   if (!existingUser) {
     throw new ApiError(401, "Unauthorized! Access denied");
