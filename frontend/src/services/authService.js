@@ -1,23 +1,23 @@
 import api from "../api/apiClient";
 
 export const register = async (userData) => {
-  const { data } = await api.post("/register", userData);
-  return data;
+  const { data } = await api.post("/api/auth/register", userData);
+  return data.data;
 };
 
 export const login = async (userData) => {
-  const { data } = await api.post("/login", userData);
-  return data;
+  const { data } = await api.post("/api/auth/login", userData);
+  return data.data;
 };
 
 export const getUser = async () => {
-  const { data } = await api.get("/me");
-  return data;
+  const { data } = await api.get("/api/auth/verify");
+  return data.data;
 };
 
 export const logoutUser = async () => {
-  const { data } = await api.post("/logout");
-  return data;
+  const { data } = await api.post("/api/auth/logout");
+  return data.data;
 };
 
 // export const register = (userData) =>

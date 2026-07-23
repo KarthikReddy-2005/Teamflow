@@ -4,6 +4,7 @@ import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import generateToken from "../utils/generateToken.js";
+import { env } from "../configs/env.js";
 
 export const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;

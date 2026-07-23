@@ -51,7 +51,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
         >
           <Logo />
         </div>
-        <button onClick={handleCollapse}>
+        <button onClick={handleCollapse} className="border-none">
           {collapse ? (
             <PanelRight size={30} strokeWidth={1.2} />
           ) : (
