@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.routes.js";
 import { env } from "./configs/env.js";
 import teamsRouter from "./routes/teams.routes.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -18,7 +19,9 @@ app.use(
   }),
 );
 
-app.use("/", authRouter);
-app.use("/teams", teamsRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/teams", teamsRouter);
+
+app.use(errorMiddleware);
 
 export default app;

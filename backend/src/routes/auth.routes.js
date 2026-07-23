@@ -5,7 +5,7 @@ import {
   registerUser,
   logoutUser,
 } from "../controllers/auth.controllers.js";
-import { protectedRoute } from "../middlewares/auth.middlewares.js";
+import { protectedRoute } from "../middlewares/auth.middleware.js";
 
 const authRouter = express.Router();
 
