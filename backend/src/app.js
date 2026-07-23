@@ -1,8 +1,9 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import router from "./routes/auth.routes.js";
+import authRouter from "./routes/auth.routes.js";
 import { env } from "./configs/env.js";
+import teamsRouter from "./routes/teams.routes.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(
   }),
 );
 
-app.use("/", router);
+app.use("/", authRouter);
+app.use("/teams", teamsRouter);
 
 export default app;

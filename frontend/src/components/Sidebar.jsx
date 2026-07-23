@@ -12,7 +12,7 @@ import {
 import { logoutUser } from "../services/authService";
 
 const Sidebar = ({ collapse, setCollapse }) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const links = [
     {
@@ -30,7 +30,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
   const handleLogout = async () => {
     try {
       await logoutUser();
-      Navigate("/login");
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
