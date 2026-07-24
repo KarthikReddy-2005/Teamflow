@@ -9,10 +9,11 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { logoutUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({ collapse, setCollapse }) => {
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const links = [
     {
@@ -29,7 +30,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
+      await logout();
       navigate("/login");
     } catch (error) {
       console.error(error);

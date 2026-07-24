@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../services/authService";
 import { useAuth } from "../context/AuthContext";
 
 const RegisterForm = () => {
@@ -30,8 +29,7 @@ const RegisterForm = () => {
     try {
       setError("");
       setLoading(true);
-      const userData = await registerUser(formData);
-      register(userData);
+      await register(formData);
       navigate("/dashboard");
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong.");
