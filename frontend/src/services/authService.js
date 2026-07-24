@@ -1,16 +1,16 @@
 import api from "../api/apiClient";
 
-export const register = async (userData) => {
+export const registerUser = async (userData) => {
   const { data } = await api.post("/api/auth/register", userData);
   return data.data;
 };
 
-export const login = async (userData) => {
+export const loginUser = async (userData) => {
   const { data } = await api.post("/api/auth/login", userData);
   return data.data;
 };
 
-export const getUser = async () => {
+export const verifySession = async () => {
   const { data } = await api.get("/api/auth/verify");
   return data.data;
 };

@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../services/authService";
+import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -27,7 +29,8 @@ const LoginForm = () => {
     try {
       setError("");
       setLoading(true);
-      await login(formData);
+      const userData = await loginUser(formData);
+      login(userData);
       navigate("/dashboard");
     } catch (error) {
       setError(error.response?.data?.message || "Something went wrong.");
