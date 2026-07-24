@@ -10,8 +10,13 @@ export const login = async (userData) => {
   return data;
 };
 
-export const getUserName = async () => {
+export const getUser = async () => {
   const { data } = await api.get("/me");
+  return data;
+};
+
+export const logoutUser = async () => {
+  const { data } = await api.post("/logout");
   return data;
 };
 

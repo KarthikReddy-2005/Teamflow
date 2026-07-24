@@ -8,6 +8,7 @@ const LoginForm = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,11 +25,12 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setError("");
       setLoading(true);
       await login(formData);
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
+      setError(error.response?.data?.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -52,7 +54,8 @@ const LoginForm = () => {
         value={formData.password}
         onChange={handleChange}
       />
-      <Button text={loading ? "Logging in..." : "login"} disabled={loading} />
+      {error && <p className="text-red-600 text-sm">{error}</p>}
+      <Button text={loading ? "Logging in..." : "Login"} disabled={loading} />
       <p className="text-center">
         New to TeamFlow ?{" "}
         <Link to="/register" className="text-blue-600">

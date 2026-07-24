@@ -7,6 +7,8 @@ import { register } from "../services/authService";
 const RegisterForm = () => {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -24,10 +26,14 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setError("");
+      setLoading(true);
       await register(formData);
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
+      setError(error.response?.data?.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,12 +62,16 @@ const RegisterForm = () => {
         value={formData.password}
         onChange={handleChange}
       />
-      <Button text="Register" />
+      {error && <p className="text-red-600 text-sm">{error}</p>}
+      <Button
+        text={loading ? "Registering..." : "Register"}
+        disabled={loading}
+      />
       <p className="text-center">
         Already have an Account ?{" "}
         <Link to="/login" className="text-blue-700">
           Login
-        </Link>{" "}
+        </Link>
       </p>
     </form>
   );

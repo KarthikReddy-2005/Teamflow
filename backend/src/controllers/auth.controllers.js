@@ -94,9 +94,22 @@ export const loginUser = async (req, res) => {
   }
 };
 
-export const me = (req, res) => {
+export const verifyUser = (req, res) => {
   try {
     res.json(req.user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Something went wrong " });
+  }
+};
+
+export const logoutUser = (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: env.NODE_ENV === "production",
+    });
+    res.status(200).json({ success: true, message: "Logged out Sucessfully" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Something went wrong " });
