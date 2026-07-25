@@ -52,7 +52,12 @@ const Sidebar = ({ collapse, setCollapse }) => {
         >
           <Logo />
         </div>
-        <button onClick={handleCollapse} className="border-none">
+        <button
+          type="button"
+          onClick={handleCollapse}
+          aria-label={collapse ? "Expand sidebar" : "Collapse sidebar"}
+          className="border-none"
+        >
           {collapse ? (
             <PanelRight size={30} strokeWidth={1.2} />
           ) : (

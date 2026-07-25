@@ -43,11 +43,11 @@ export const loginUser = asyncHandler(async (req, res) => {
   }
   const user = await User.findOne({ email });
   if (!user) {
-    throw new ApiError(400, "Invalid email or password");
+    throw new ApiError(401, "Invalid email or password");
   }
   const comparePassword = await bcrypt.compare(password, user.password);
   if (!comparePassword) {
-    throw new ApiError(400, "Invalid email or password");
+    throw new ApiError(401, "Invalid email or password");
   }
   generateToken(user._id, res);
 
@@ -70,6 +70,7 @@ export const logoutUser = asyncHandler((req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: env.NODE_ENV === "production",
+    sameSite: "strict",
   });
   res.status(200).json(new ApiResponse(200, "Logged out successfully"));
 });

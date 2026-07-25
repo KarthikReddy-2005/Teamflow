@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  const refreshUser = async () => {
+  const refresh = async () => {
     const user = await verifySession();
     setUser(user);
   };
@@ -50,6 +50,7 @@ const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    refresh,
     login,
     register,
     logout,
