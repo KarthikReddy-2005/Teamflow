@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import { Link, useNavigate } from "react-router-dom";
-import { register } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const { register } = useAuth();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

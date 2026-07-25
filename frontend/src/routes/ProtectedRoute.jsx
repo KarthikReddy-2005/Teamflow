@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { getUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = () => {
-  const [loading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function verifyUser() {
-      try {
-        const data = await getUser();
-        setUser(data);
-        setAuthenticated(true);
-      } catch (error) {
-        setAuthenticated(false);
-      } finally {
-        setLoading(false);
-      }
-    }
-    verifyUser();
-  }, []);
+  const { user, loading } = useAuth();
   if (loading) {
     return <p>Loading...</p>;
   }
-  if (!authenticated) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
-  return <Outlet context={user} />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

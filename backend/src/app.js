@@ -1,14 +1,13 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import router from "./routes/auth.routes.js";
+import authRouter from "./routes/auth.routes.js";
 import { env } from "./configs/env.js";
+import teamsRouter from "./routes/teams.routes.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
+import ApiError from "./utils/ApiError.js";
 
 const app = express();
-
-app.use(express.json());
-
-app.use(cookieParser());
 
 app.use(
   cors({
@@ -17,6 +16,17 @@ app.use(
   }),
 );
 
-app.use("/", router);
+app.use(express.json());
+
+app.use(cookieParser());
+
+app.use("/api/auth", authRouter);
+app.use("/api/teams", teamsRouter);
+
+app.use((req, res, next) => {
+  next(new ApiError(404, "Route not found"));
+});
+
+app.use(errorMiddleware);
 
 export default app;

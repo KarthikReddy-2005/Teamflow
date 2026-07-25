@@ -1,7 +1,7 @@
-import { useOutletContext } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
-  const user = useOutletContext();
+  const { user } = useAuth();
   return (
     <>
       <h1>hello {user?.username}</h1>

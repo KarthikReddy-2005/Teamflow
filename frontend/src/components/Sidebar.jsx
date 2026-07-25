@@ -9,10 +9,11 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { logoutUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 const Sidebar = ({ collapse, setCollapse }) => {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const links = [
     {
@@ -29,8 +30,8 @@ const Sidebar = ({ collapse, setCollapse }) => {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
-      Navigate("/login");
+      await logout();
+      navigate("/login");
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +52,12 @@ const Sidebar = ({ collapse, setCollapse }) => {
         >
           <Logo />
         </div>
-        <button onClick={handleCollapse}>
+        <button
+          type="button"
+          onClick={handleCollapse}
+          aria-label={collapse ? "Expand sidebar" : "Collapse sidebar"}
+          className="border-none"
+        >
           {collapse ? (
             <PanelRight size={30} strokeWidth={1.2} />
           ) : (

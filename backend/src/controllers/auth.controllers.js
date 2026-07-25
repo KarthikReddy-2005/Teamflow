@@ -1,117 +1,76 @@
-import { env } from "../configs/env.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import asyncHandler from "../utils/asyncHandler.js";
+import ApiError from "../utils/ApiError.js";
+import ApiResponse from "../utils/ApiResponse.js";
+import generateToken from "../utils/generateToken.js";
+import { env } from "../configs/env.js";
 
-export const registerUser = async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "All fleids are required" });
-    }
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({
-        message: "User with the Email exists",
-      });
-    }
-
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-    });
-
-    const token = jwt.sign({ userId: newUser._id }, env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
-    res.status(201).json({
-      success: true,
-      message: "Signed in successfully",
-      user: {
-        id: newUser._id,
-        username: newUser.username,
-        email: newUser.email,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong" });
+export const registerUser = asyncHandler(async (req, res) => {
+  const { username, email, password } = req.body;
+  if (!username?.trim() || !email?.trim() || !password?.trim()) {
+    throw new ApiError(400, "All fields are required");
   }
-};
-export const loginUser = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Email and password are required" });
-    }
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({
-        message: "Invalid email or password",
-      });
-    }
-    const comparePassword = await bcrypt.compare(password, user.password);
-    if (!comparePassword) {
-      return res.status(401).json({
-        message: "Invalid email or password",
-      });
-    }
-    const token = jwt.sign({ userId: user._id }, env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
-    res.status(200).json({
-      success: true,
-      message: "Logged in successfully",
-      user: {
-        id: user._id,
-        username: user.username,
-        email: user.email,
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong " });
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new ApiError(409, "User with the Email exists");
   }
-};
 
-export const verifyUser = (req, res) => {
-  try {
-    res.json(req.user);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong " });
-  }
-};
+  const saltRounds = 12;
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-export const logoutUser = (req, res) => {
-  try {
-    res.clearCookie("token", {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-    });
-    res.status(200).json({ success: true, message: "Logged out Sucessfully" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Something went wrong " });
+  const newUser = await User.create({
+    username,
+    email,
+    password: hashedPassword,
+  });
+
+  generateToken(newUser._id, res);
+
+  res.status(201).json(
+    new ApiResponse(201, "User registered successfully", {
+      id: newUser._id,
+      username: newUser.username,
+      email: newUser.email,
+    }),
+  );
+});
+
+export const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new ApiError(400, "Email and password are required");
   }
-};
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new ApiError(401, "Invalid email or password");
+  }
+  const comparePassword = await bcrypt.compare(password, user.password);
+  if (!comparePassword) {
+    throw new ApiError(401, "Invalid email or password");
+  }
+  generateToken(user._id, res);
+
+  res.status(200).json(
+    new ApiResponse(200, "Logged in successfully", {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+    }),
+  );
+});
+
+export const verifyUser = asyncHandler((req, res) => {
+  res
+    .status(200)
+    .json(new ApiResponse(200, "User data fetched successfully", req.user));
+});
+
+export const logoutUser = asyncHandler((req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: env.NODE_ENV === "production",
+    sameSite: "strict",
+  });
+  res.status(200).json(new ApiResponse(200, "Logged out successfully"));
+});
