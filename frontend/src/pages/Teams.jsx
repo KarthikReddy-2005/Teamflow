@@ -55,7 +55,7 @@ const Teams = () => {
       <div className="p-6 flex flex-row flex-wrap gap-3">
         {teams.map((team) => (
           <div
-            className="w-full max-w-md bg-white shadow-lg rounded-xl p-8"
+            className="w-full max-w-md bg-white shadow-lg rounded-xl p-8 hover:bg-slate-50 cursor-pointer"
             onClick={() => handleTeamClick(team._id)}
             key={team._id}
           >
