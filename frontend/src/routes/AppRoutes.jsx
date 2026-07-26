@@ -9,6 +9,7 @@ import Tasks from "../pages/Tasks";
 import Profile from "../pages/Profile";
 import AppLayout from "../layouts/AppLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import SingleTeam from "../pages/SingleTeam";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         <Route element={<AppLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/teams" element={<Teams />} />
+          <Route path="/teams/:id" element={<SingleTeam />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/profile" element={<Profile />} />
         </Route>

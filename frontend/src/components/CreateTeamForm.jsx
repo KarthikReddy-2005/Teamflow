@@ -53,7 +53,6 @@ const CreateTeamForm = ({ onSuccess, onClose }) => {
           onChange={handleChange}
           className="border rounded-lg px-3 py-2 focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-200"
           placeholder="Enter team description"
-          required
         />
       </div>
       {error && <p className="text-red-600 text-sm">{error}</p>}
