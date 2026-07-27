@@ -5,7 +5,12 @@ export const createTeam = async (teamData) => {
   return data.data;
 };
 
-export const getAllteams = async () => {
+export const getAllTeams = async () => {
   const { data } = await api.get("/api/teams/");
+  return data.data;
+};
+
+export const getTeam = async (id) => {
+  const { data } = await api.get(`/api/teams/${id}`);
   return data.data;
 };

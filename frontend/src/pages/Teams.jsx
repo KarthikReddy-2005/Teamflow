@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllteams } from "../services/teamsService";
+import { getAllTeams } from "../services/teamsService";
 import Modal from "../components/Modal";
 import CreateTeamForm from "../components/CreateTeamForm";
 import Card from "../components/Card";
@@ -14,7 +14,7 @@ const Teams = () => {
   async function fetchTeams() {
     try {
       setLoading(true);
-      const data = await getAllteams();
+      const data = await getAllTeams();
       setTeams(data);
     } catch (error) {
       setTeams([]);
