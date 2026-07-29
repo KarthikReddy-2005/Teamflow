@@ -3,7 +3,7 @@ import { EllipsisVertical } from "lucide-react";
 const TeamHeader = ({ title, activatePanel }) => {
   return (
     <div
-      onClick={() => activatePanel(true)}
+      onClick={() => activatePanel("groupDetails")}
       className="flex flex-row justify-between items-center p-4 px-12 w-full border-b hover:cursor-pointer"
     >
       <p className="font-bold text-3xl">{title}</p>
