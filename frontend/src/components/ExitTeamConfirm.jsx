@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { deleteTeam } from "../services/teamsService";
 import Button from "./Button";
 
-const DeleteTeamConfirm = ({ id, onExit, onCancel }) => {
+const ExitTeamConfirm = ({ id, onExit, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const handleClick = async (e) => {
@@ -46,4 +46,4 @@ const DeleteTeamConfirm = ({ id, onExit, onCancel }) => {
   );
 };
 
-export default DeleteTeamConfirm;
+export default ExitTeamConfirm;

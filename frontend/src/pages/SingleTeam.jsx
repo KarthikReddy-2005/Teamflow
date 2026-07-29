@@ -45,7 +45,9 @@ const SingleTeam = () => {
   else navigate("/teams");
 
   let drawerContent = null;
+  let drawerTitle = null;
   if (drawerMode === "groupDetails") {
+    drawerTitle = "Group details";
     drawerContent = (
       <TeamDetails
         team={team}
@@ -56,6 +58,7 @@ const SingleTeam = () => {
       />
     );
   } else if (drawerMode === "editTeam") {
+    drawerTitle = "Edit details";
     drawerContent = (
       <EditTeamForm
         team={team}
@@ -64,6 +67,7 @@ const SingleTeam = () => {
       />
     );
   } else if (drawerMode === "deleteTeam") {
+    drawerTitle = "Delete Team";
     drawerContent = (
       <DeleteTeamConfirm
         id={team._id}
@@ -72,6 +76,7 @@ const SingleTeam = () => {
       />
     );
   } else if (drawerMode === "exitTeam") {
+    drawerTitle = "Exit Team";
     drawerContent = (
       <ExitTeamConfirm
         team={team._id}
@@ -94,11 +99,7 @@ const SingleTeam = () => {
 
         <div className="flex-1"></div>
       </div>
-      <SideDrawer
-        title={"Group details"}
-        open={drawerMode}
-        close={setDrawerMode}
-      >
+      <SideDrawer title={drawerTitle} open={drawerMode} close={setDrawerMode}>
         {drawerContent}
       </SideDrawer>
     </div>
