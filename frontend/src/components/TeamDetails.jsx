@@ -25,9 +25,7 @@ const TeamDetails = ({ team, onEdit, onDelete, onExit, role }) => {
         <span>{team.members.length}</span>
         {team.members.length > 1 ? " Members" : " Member"}
       </h1>
-      <p onClick={() => onExit()} className="text-red-500 hover:cursor-pointer">
-        Leave team
-      </p>
+      <p className="text-red-500 hover:cursor-pointer">Leave team</p>
 
       {role === "owner" && (
         <p
