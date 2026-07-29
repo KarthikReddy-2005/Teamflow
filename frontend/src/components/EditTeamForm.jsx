@@ -35,7 +35,7 @@ const EditTeamForm = ({ team, onUpdate, onSuccess }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="mt-6 space-y-4">
       <Input
         id="name"
         label="Team name"

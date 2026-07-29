@@ -9,6 +9,7 @@ import SideDrawer from "../components/SideDrawer";
 import TeamDetails from "../components/TeamDetails";
 import EditTeamForm from "../components/EditTeamForm";
 import { useAuth } from "../context/AuthContext";
+import DeleteTeamConfirm from "../components/DeleteTeamConfirm";
 
 const SingleTeam = () => {
   const { user } = useAuth();
@@ -59,12 +60,33 @@ const SingleTeam = () => {
         onSuccess={() => setDrawerMode("groupDetails")}
       />
     );
+  } else if (drawerMode === "deleteTeam") {
+    drawerContent = (
+      <DeleteTeamConfirm
+        id={team._id}
+        onDelete={() => navigate("/teams")}
+        onCancel={() => setDrawerMode(null)}
+      />
+    );
+  } else if (drawerMode === "exitTeam") {
+    drawerContent = (
+      <E
+        team={team}
+        onUpdate={setTeam}
+        onSuccess={() => setDrawerMode("groupDetails")}
+      />
+    );
   }
+
   return (
     <div className=" h-screen flex flex-row ">
       <div className="flex flex-col flex-1">
         <div>
-          <TeamHeader title={team.name} activatePanel={setDrawerMode} />
+          <TeamHeader
+            title={team.name}
+            role={role}
+            activatePanel={setDrawerMode}
+          />
         </div>
 
         <div className="flex-1"></div>
