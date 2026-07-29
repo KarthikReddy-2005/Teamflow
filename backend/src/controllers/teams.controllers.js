@@ -13,7 +13,7 @@ export const createTeam = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Unauthorized");
   }
   const team = await Team.create({
-    name,
+    name: name.trim(),
     description,
     owner: userId,
     admin: userId,
@@ -24,9 +24,38 @@ export const createTeam = asyncHandler(async (req, res) => {
 
 export const getAllTeams = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  if (!userId) {
-    throw new ApiError(401, "Unauthorized");
-  }
   const teams = await Team.find({ members: userId });
-  res.status(200).json(new ApiResponse(200, "teams data fetched", teams));
+  res.status(200).json(new ApiResponse(200, "Teams data fetched", teams));
+});
+
+export const getTeam = asyncHandler(async (req, res) => {
+  res.status(200).json(new ApiResponse(200, "Team data fetched", req.team));
+});
+
+export const updateTeam = asyncHandler(async (req, res) => {
+  const { name, description } = req.body;
+
+  if (!name?.trim() && !description?.trim()) {
+    throw new ApiError(400, "Name or description required");
+  }
+  const updatedteam = await Team.findByIdAndUpdate(
+    req.team._id,
+    {
+      ...(name?.trim() && { name: name.trim() }),
+      ...(description?.trim() && { description: description.trim() }),
+    },
+    { new: true, runValidators: true },
+  );
+
+  res
+    .status(200)
+    .json(new ApiResponse(200, "Team updated successfully", updatedteam));
+});
+
+export const deleteTeam = asyncHandler(async (req, res) => {
+  const team = await Team.findByIdAndDelete(req.team._id);
+  if (!team) {
+    throw new ApiError(404, "Team not found");
+  }
+  res.status(200).json(new ApiResponse(200, "Team deleted Successfully", team));
 });

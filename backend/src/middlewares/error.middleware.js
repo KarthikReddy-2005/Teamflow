@@ -1,5 +1,12 @@
 const errorMiddleware = (err, req, res, next) => {
-  console.error(err);
+  console.error("Error:", {
+    message: err.message,
+    name: err.name,
+    stack: err.stack,
+    method: req.method,
+    url: req.originalUrl,
+    params: req.params,
+  });
   res.status(err.statusCode || 500).json({
     success: false,
     statusCode: err.statusCode || 500,
