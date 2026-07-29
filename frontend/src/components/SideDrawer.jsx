@@ -4,7 +4,9 @@ import React from "react";
 const SideDrawer = ({ title, open, close, children }) => {
   if (!open) return null;
   return (
-    <div className={`p-6 w-112.5 border-l transition-all h-screen shrink-0`}>
+    <div
+      className={`flex flex-col p-6 w-112.5 border-l transition-all h-screen shrink-0`}
+    >
       <div className="flex items-center gap-7">
         <button
           onClick={() => close(null)}

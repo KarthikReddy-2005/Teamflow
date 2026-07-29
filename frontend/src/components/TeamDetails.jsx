@@ -1,7 +1,7 @@
 import { Edit, Plus, Trash } from "lucide-react";
 import React from "react";
 
-const TeamDetails = ({ team, onEdit, role }) => {
+const TeamDetails = ({ team, onEdit, onDelete, onExit, role }) => {
   return (
     <div className="mt-6 space-y-6">
       <h1 className="text-center font-bold text-3xl">{team.name}</h1>
@@ -25,9 +25,18 @@ const TeamDetails = ({ team, onEdit, role }) => {
         <span>{team.members.length}</span>
         {team.members.length > 1 ? " Members" : " Member"}
       </h1>
-      <p className="text-red-500">Leave team</p>
+      <p onClick={() => onExit()} className="text-red-500 hover:cursor-pointer">
+        Leave team
+      </p>
 
-      {role === "owner" && <p className="text-red-500">Delete team</p>}
+      {role === "owner" && (
+        <p
+          onClick={() => onDelete()}
+          className="text-red-500 hover:cursor-pointer"
+        >
+          Delete team
+        </p>
+      )}
     </div>
   );
 };

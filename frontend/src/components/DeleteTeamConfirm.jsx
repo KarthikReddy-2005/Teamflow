@@ -19,7 +19,7 @@ const DeleteTeamConfirm = ({ id, onDelete, onCancel }) => {
   };
   if (loading) return <p>Loading team...</p>;
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex flex-1 justify-center items-center">
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6 relative">
         <h1>Are you sure you want to delete the team?</h1>
         <button

@@ -10,6 +10,7 @@ import TeamDetails from "../components/TeamDetails";
 import EditTeamForm from "../components/EditTeamForm";
 import { useAuth } from "../context/AuthContext";
 import DeleteTeamConfirm from "../components/DeleteTeamConfirm";
+import ExitTeamConfirm from "../components/ExitTeamConfirm";
 
 const SingleTeam = () => {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ const SingleTeam = () => {
   let role = null;
   if (user._id === team.owner) role = "owner";
   else if (user._id === team.admin) role = "admin";
-  else if (user._id === team.members.some((member) => member)) role = "member";
+  else if (team.members.some((member) => member === user._id)) role = "member";
   else navigate("/teams");
 
   let drawerContent = null;
@@ -49,6 +50,8 @@ const SingleTeam = () => {
       <TeamDetails
         team={team}
         onEdit={() => setDrawerMode("editTeam")}
+        onDelete={() => setDrawerMode("deleteTeam")}
+        onExit={() => setDrawerMode("exitTeam")}
         role={role}
       />
     );
@@ -70,10 +73,10 @@ const SingleTeam = () => {
     );
   } else if (drawerMode === "exitTeam") {
     drawerContent = (
-      <E
-        team={team}
-        onUpdate={setTeam}
-        onSuccess={() => setDrawerMode("groupDetails")}
+      <ExitTeamConfirm
+        team={team._id}
+        onExit={() => navigate("/teams")}
+        onCancel={() => setDrawerMode(null)}
       />
     );
   }

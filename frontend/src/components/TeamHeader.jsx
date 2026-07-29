@@ -17,19 +17,21 @@ const TeamHeader = ({ title, role, activatePanel }) => {
       >
         {title}
       </p>
-      <div
-        onClick={() => setMenuOpen((prev) => !prev)}
-        className="hover:bg-blue-200 rounded-full p-2 hover:cursor-pointer"
-      >
-        <EllipsisVertical size={20} />
+      <div className="relative">
+        <div
+          onClick={() => setMenuOpen((prev) => !prev)}
+          className="hover:bg-blue-200 rounded-full p-2 hover:cursor-pointer"
+        >
+          <EllipsisVertical size={20} />
+        </div>
+        {menuOpen && (
+          <TeamMenu
+            role={role}
+            onAction={handleAction}
+            onClose={() => setMenuOpen(false)}
+          />
+        )}
       </div>
-      {menuOpen && (
-        <TeamMenu
-          role={role}
-          onAction={handleAction}
-          onClose={() => setMenuOpen(false)}
-        />
-      )}
     </div>
   );
 };
