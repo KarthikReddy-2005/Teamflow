@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import User from "./user.model.js";
 
 const teamSchema = new mongoose.Schema(
   {
@@ -14,11 +13,11 @@ const teamSchema = new mongoose.Schema(
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: User,
+      ref: "User",
       required: true,
     },
-    admin: { type: Schema.Types.ObjectId, ref: User },
-    members: [{ type: Schema.Types.ObjectId, ref: User }],
+    admin: { type: Schema.Types.ObjectId, ref: "User" },
+    members: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true },
 );

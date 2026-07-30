@@ -44,7 +44,7 @@ export const updateTeam = asyncHandler(async (req, res) => {
       ...(name?.trim() && { name: name.trim() }),
       ...(description?.trim() && { description: description.trim() }),
     },
-    { new: true, runValidators: true },
+    { returnDocument: "after", runValidators: true },
   );
 
   res

@@ -12,6 +12,10 @@ import {
   isTeamMember,
   loadTeam,
 } from "../middlewares/team.middleware.js";
+import {
+  createProject,
+  getProjectsOfTeam,
+} from "../controllers/projects.controllers.js";
 
 const teamsRouter = express.Router();
 
@@ -25,6 +29,20 @@ teamsRouter.delete(
   loadTeam,
   isAdminOrOwner,
   deleteTeam,
+);
+teamsRouter.get(
+  "/:id/projects",
+  protectedRoute,
+  loadTeam,
+  isTeamMember,
+  getProjectsOfTeam,
+);
+teamsRouter.post(
+  "/:id/projects",
+  protectedRoute,
+  loadTeam,
+  isAdminOrOwner,
+  createProject,
 );
 
 export default teamsRouter;

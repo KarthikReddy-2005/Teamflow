@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
-import CreateTeamForm from "../components/CreateTeamForm";
 import Card from "../components/Card";
 import { useNavigate, useParams } from "react-router-dom";
-import CreateProjectForm from "./CreateProjectForm";
-import { getProjectsOfTeam } from "../services/projectsService";
+import CreateProjectForm from "../components/CreateProjectForm";
+import { getProjects } from "../services/projectsService";
 
-const TeamContent = () => {
+const Projects = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [projects, setProjects] = useState([]);
@@ -16,7 +15,7 @@ const TeamContent = () => {
   async function fetchProjects() {
     try {
       setLoading(true);
-      const data = await getProjectsOfTeam(id);
+      const data = await getProjects();
       setProjects(data);
     } catch (error) {
       setProjects([]);
@@ -45,10 +44,10 @@ const TeamContent = () => {
           onClose={() => setIsOpen(false)}
         />
       </Modal>
-      <div className="flex flex-row justify-between items-center p-4 w-full ">
-        <p className="font-bold ">Projects</p>
+      <div className="flex flex-row justify-between items-center p-4 w-full border-b">
+        <p className="font-bold text-3xl">Projects</p>
         <button
-          className="px-3 py-3 rounded-md bg-blue-400 text-white"
+          className="px-3 py-3 rounded-md bg-blue-500 text-white"
           onClick={() => setIsOpen(true)}
         >
           create Project
@@ -69,4 +68,4 @@ const TeamContent = () => {
     </>
   );
 };
-export default TeamContent;
+export default Projects;

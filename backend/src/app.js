@@ -6,6 +6,7 @@ import { env } from "./configs/env.js";
 import teamsRouter from "./routes/teams.routes.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import ApiError from "./utils/ApiError.js";
+import projectRouter from "./routes/projects.routes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/teams", teamsRouter);
+app.use("/api/projects", projectRouter);
 
 app.use((req, res, next) => {
   next(new ApiError(404, "Route not found"));
