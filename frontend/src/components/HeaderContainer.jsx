@@ -1,8 +1,8 @@
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
-import TeamMenu from "./TeamMenu";
+import ActionMenu from "./ActionMenu";
 
-const TeamHeader = ({ title, role, activatePanel }) => {
+const HeaderContainer = ({ title, actions, activatePanel, def }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleAction = (action) => {
@@ -12,7 +12,7 @@ const TeamHeader = ({ title, role, activatePanel }) => {
   return (
     <div className="flex flex-row justify-between items-center p-4 px-12 w-full border-b ">
       <p
-        onClick={() => activatePanel("groupDetails")}
+        onClick={() => activatePanel(def)}
         className="font-bold text-3xl hover:cursor-pointer"
       >
         {title}
@@ -25,8 +25,8 @@ const TeamHeader = ({ title, role, activatePanel }) => {
           <EllipsisVertical size={20} />
         </div>
         {menuOpen && (
-          <TeamMenu
-            role={role}
+          <ActionMenu
+            actions={actions}
             onAction={handleAction}
             onClose={() => setMenuOpen(false)}
           />
@@ -36,4 +36,4 @@ const TeamHeader = ({ title, role, activatePanel }) => {
   );
 };
 
-export default TeamHeader;
+export default HeaderContainer;

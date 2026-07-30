@@ -1,17 +1,16 @@
 import React from "react";
 import { getTeam } from "../services/teamsService";
+import { deleteTeam } from "../services/teamsService";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { EllipsisVertical, X } from "lucide-react";
-import TeamHeader from "../components/TeamHeader";
+import HeaderContainer from "../components/HeaderContainer";
 import SideDrawer from "../components/SideDrawer";
 import TeamDetails from "../components/TeamDetails";
 import EditTeamForm from "../components/EditTeamForm";
 import { useAuth } from "../context/AuthContext";
-import DeleteTeamConfirm from "../components/DeleteTeamConfirm";
-import ExitTeamConfirm from "../components/ExitTeamConfirm";
 import TeamContent from "../components/TeamContent";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const SingleTeam = () => {
   const { user } = useAuth();
@@ -45,6 +44,36 @@ const SingleTeam = () => {
   else if (team.members.some((member) => member === user._id)) role = "member";
   else navigate("/teams");
 
+  const headerActions = [
+    {
+      key: "groupDetails",
+      label: "Group details",
+    },
+    ...(role === "owner" || role === "admin"
+      ? [
+          {
+            key: "editTeam",
+            label: "Edit team",
+          },
+        ]
+      : []),
+    ...(role === "owner"
+      ? [
+          {
+            key: "deleteTeam",
+            label: "Delete team",
+            className: "text-red-600",
+          },
+        ]
+      : []),
+    {
+      key: "exitTeam",
+      label: "Leave team",
+      className: "text-red-600",
+      disabled: true,
+    },
+  ];
+
   let drawerContent = null;
   let drawerTitle = null;
   if (drawerMode === "groupDetails") {
@@ -70,18 +99,30 @@ const SingleTeam = () => {
   } else if (drawerMode === "deleteTeam") {
     drawerTitle = "Delete Team";
     drawerContent = (
-      <DeleteTeamConfirm
-        id={team._id}
-        onDelete={() => navigate("/teams")}
+      <ConfirmDialog
+        title="Are you sure you want to delete the team?"
+        message="This action cannot be undone."
+        confirmLabel="Delete"
+        loadingLabel="Deleting..."
+        onConfirm={async () => {
+          await deleteTeam(team._id);
+          navigate("/teams");
+        }}
         onCancel={() => setDrawerMode(null)}
       />
     );
   } else if (drawerMode === "exitTeam") {
     drawerTitle = "Exit Team";
     drawerContent = (
-      <ExitTeamConfirm
-        team={team._id}
-        onExit={() => navigate("/teams")}
+      <ConfirmDialog
+        title="Are you sure you want to exit the team?"
+        message="You will be removed from the team view."
+        confirmLabel="Exit"
+        loadingLabel="Exiting..."
+        confirmClassName="bg-red-600 hover:bg-red-700"
+        onConfirm={async () => {
+          navigate("/teams");
+        }}
         onCancel={() => setDrawerMode(null)}
       />
     );
@@ -91,10 +132,11 @@ const SingleTeam = () => {
     <div className=" h-screen flex flex-row ">
       <div className="flex flex-col flex-1">
         <div>
-          <TeamHeader
+          <HeaderContainer
             title={team.name}
-            role={role}
+            actions={headerActions}
             activatePanel={setDrawerMode}
+            def={"groupDetails"}
           />
         </div>
 

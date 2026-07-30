@@ -45,10 +45,10 @@ const TeamContent = () => {
           onClose={() => setIsOpen(false)}
         />
       </Modal>
-      <div className="flex flex-row justify-between items-center p-4 w-full border-b">
-        <p className="font-bold text-3xl">Projects</p>
+      <div className="flex flex-row justify-between items-center p-4 w-full ">
+        <p className="font-bold ">Projects</p>
         <button
-          className="px-3 py-3 rounded-md bg-blue-500 text-white"
+          className="px-3 py-3 rounded-md bg-blue-400 text-white"
           onClick={() => setIsOpen(true)}
         >
           create Project
