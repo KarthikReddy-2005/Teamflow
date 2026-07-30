@@ -47,8 +47,8 @@ const SingleProject = () => {
     };
   }, [id, user]);
 
-  if (loading) return <p>Loading team...</p>;
-  if (!project) return <p>Team not found</p>;
+  if (loading) return <p>Loading Project...</p>;
+  if (!project) return <p>Project not found</p>;
 
   const headerActions = [
     {
