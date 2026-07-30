@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import {
   CheckSquare,
+  Folder,
   LayoutDashboardIcon,
   LogOut,
   PanelLeft,
@@ -22,6 +23,7 @@ const Sidebar = ({ collapse, setCollapse }) => {
       icon: LayoutDashboardIcon,
     },
     { name: "Teams", path: "/teams", icon: Users },
+    { name: "Projects", path: "/projects", icon: Folder },
     { name: "Tasks", path: "/tasks", icon: CheckSquare },
     { name: "Profile", path: "/profile", icon: User },
   ];

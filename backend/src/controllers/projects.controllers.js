@@ -61,7 +61,7 @@ export const updateProject = asyncHandler(async (req, res) => {
   const updatedProject = await Project.findByIdAndUpdate(
     req.project._id,
     updates,
-    { new: true, runValidators: true },
+    { returnDocument: "after", runValidators: true },
   );
   res
     .status(200)
@@ -77,7 +77,7 @@ export const archiveProject = asyncHandler(async (req, res) => {
     {
       archivedAt: new Date(),
     },
-    { new: true },
+    { returnDocument: "after" },
   );
   res
     .status(200)

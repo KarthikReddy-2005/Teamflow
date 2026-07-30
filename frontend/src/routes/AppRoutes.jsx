@@ -10,6 +10,9 @@ import Profile from "../pages/Profile";
 import AppLayout from "../layouts/AppLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import SingleTeam from "../pages/SingleTeam";
+import Projects from "../pages/Projects";
+import SingleProject from "../pages/SingleProject";
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -21,6 +24,8 @@ const AppRoutes = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/teams/:id" element={<SingleTeam />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:id" element={<SingleProject />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/profile" element={<Profile />} />
         </Route>

@@ -11,6 +11,7 @@ import EditTeamForm from "../components/EditTeamForm";
 import { useAuth } from "../context/AuthContext";
 import DeleteTeamConfirm from "../components/DeleteTeamConfirm";
 import ExitTeamConfirm from "../components/ExitTeamConfirm";
+import TeamContent from "../components/TeamContent";
 
 const SingleTeam = () => {
   const { user } = useAuth();
@@ -97,7 +98,9 @@ const SingleTeam = () => {
           />
         </div>
 
-        <div className="flex-1"></div>
+        <div className="flex-1">
+          <TeamContent />
+        </div>
       </div>
       <SideDrawer title={drawerTitle} open={drawerMode} close={setDrawerMode}>
         {drawerContent}

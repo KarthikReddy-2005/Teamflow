@@ -1,4 +1,4 @@
-import ApiError from "./ApiError";
+import ApiError from "./ApiError.js";
 
 const checkDates = (startDate, endDate) => {
   const start = new Date(startDate);
